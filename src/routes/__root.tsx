@@ -70,20 +70,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Nyals (K) Ltd — Exclusive Menswear Nairobi" },
+      { title: "Nyals (K) Ltd — Exclusive Menswear on Moi Avenue, Nairobi" },
       {
         name: "description",
         content:
           "Nairobi's premier destination for exclusive menswear and accessories. Visit Nyals (K) Ltd on Moi Avenue for tailored suits, dress shirts, footwear and more.",
       },
       { name: "author", content: "Nyals (K) Ltd" },
-      { property: "og:title", content: "Nyals (K) Ltd — Exclusive Menswear Nairobi" },
+      { property: "og:title", content: "Nyals (K) Ltd — Exclusive Menswear on Moi Avenue, Nairobi" },
       {
         property: "og:description",
         content: "Curated menswear on Moi Avenue, Nairobi. Suits, shirts, footwear, accessories.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Nyals (K) Ltd — Exclusive Menswear on Moi Avenue, Nairobi" },
+      { name: "description", content: "Tailored suits, dress shirts, footwear and accessories for the discerning Nairobi gentleman. Visit us at the Nyals K Building, Moi Avenue." },
+      { property: "og:description", content: "Tailored suits, dress shirts, footwear and accessories for the discerning Nairobi gentleman. Visit us at the Nyals K Building, Moi Avenue." },
+      { name: "twitter:description", content: "Tailored suits, dress shirts, footwear and accessories for the discerning Nairobi gentleman. Visit us at the Nyals K Building, Moi Avenue." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0e749b93-07e4-44af-b92b-e45b761121f0/id-preview-549ff5f1--f401e90f-76b1-405e-8f64-9bf4c2522ca0.lovable.app-1783116747582.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0e749b93-07e4-44af-b92b-e45b761121f0/id-preview-549ff5f1--f401e90f-76b1-405e-8f64-9bf4c2522ca0.lovable.app-1783116747582.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

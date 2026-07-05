@@ -5,12 +5,12 @@ export type Product = Database["public"]["Tables"]["products"]["Row"];
 export type ProductInsert = Database["public"]["Tables"]["products"]["Insert"];
 
 export const CATEGORIES = [
-  { name: "Suits & Blazers", slug: "Suits", img: "https://images.unsplash.com/photo-1594938298603-c8148c4b4b6a?q=80&w=700&auto=format&fit=crop", desc: "Tailored perfection" },
-  { name: "Dress Shirts", slug: "Shirts", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=700&auto=format&fit=crop", desc: "Sharp essentials" },
-  { name: "Trousers", slug: "Trousers", img: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=700&auto=format&fit=crop", desc: "Clean lines" },
-  { name: "Footwear", slug: "Footwear", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=700&auto=format&fit=crop", desc: "Step in style" },
-  { name: "Accessories", slug: "Accessories", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=700&auto=format&fit=crop", desc: "The finishing touch" },
-  { name: "Casual Wear", slug: "Casual", img: "https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?q=80&w=700&auto=format&fit=crop", desc: "Everyday refined" },
+  { name: "Suits & Blazers", slug: "Suits", images: ["https://images.unsplash.com/photo-1594938298603-c8148c4b4b6a?q=80&w=700&auto=format&fit=crop"], desc: "Tailored perfection" },
+  { name: "Dress Shirts", slug: "Shirts", images: ["https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=700&auto=format&fit=crop"], desc: "Sharp essentials" },
+  { name: "Trousers", slug: "Trousers", images: ["https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=700&auto=format&fit=crop"], desc: "Clean lines" },
+  { name: "Footwear", slug: "Footwear", images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=700&auto=format&fit=crop"], desc: "Step in style" },
+  { name: "Accessories", slug: "Accessories", images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=700&auto=format&fit=crop"], desc: "The finishing touch" },
+  { name: "Casual Wear", slug: "Casual", images: ["https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?q=80&w=700&auto=format&fit=crop"], desc: "Everyday refined" },
 ];
 
 export const ALL_CATEGORIES = ["Suits", "Blazers", "Shirts", "Trousers", "Footwear", "Accessories", "Casual"];

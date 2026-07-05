@@ -4,6 +4,9 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { queryOptions } from "@tanstack/react-query";
 
 import { SiteHeader, ThemeToggle } from "@/components/site-header";
+import Carousel from "@/components/ui/carousel";
+import { HERO_IMAGES as DEFAULT_HERO, ABOUT_IMAGES as DEFAULT_ABOUT } from "@/lib/site";
+import { useEffect, useState } from "react";
 import { SiteFooter } from "@/components/site-footer";
 import { CATEGORIES, fetchProducts, type Product } from "@/lib/products";
 
@@ -34,6 +37,36 @@ function HomePage() {
 
   const totalCount = products.length;
 
+  const [heroImgs, setHeroImgs] = useState<string[]>(DEFAULT_HERO);
+  const [aboutImgs, setAboutImgs] = useState<string[]>(DEFAULT_ABOUT);
+  const [catImgsMap, setCatImgsMap] = useState<Record<string, string[]>>({});
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("nyals_site_data");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed.heroImages)) setHeroImgs(parsed.heroImages.filter(Boolean));
+        if (Array.isArray(parsed.aboutImages)) setAboutImgs(parsed.aboutImages.filter(Boolean));
+        if (parsed.categories && typeof parsed.categories === "object") setCatImgsMap(parsed.categories);
+      }
+    } catch (_) {}
+
+    const onUpdate = () => {
+      try {
+        const raw = localStorage.getItem("nyals_site_data");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed.heroImages)) setHeroImgs(parsed.heroImages.filter(Boolean));
+          if (Array.isArray(parsed.aboutImages)) setAboutImgs(parsed.aboutImages.filter(Boolean));
+          if (parsed.categories && typeof parsed.categories === "object") setCatImgsMap(parsed.categories);
+        }
+      } catch (_) {}
+    };
+    window.addEventListener("nyals:site:update", onUpdate as EventListener);
+    return () => window.removeEventListener("nyals:site:update", onUpdate as EventListener);
+  }, []);
+
   return (
     <>
       <SiteHeader />
@@ -60,10 +93,7 @@ function HomePage() {
             </div>
           </div>
           <div className="hero-right">
-            <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=900&auto=format&fit=crop"
-              alt="Gentleman in tailored menswear"
-            />
+            <Carousel images={heroImgs.length ? heroImgs : DEFAULT_HERO} interval={5000} transitionMs={700} showDots={true} showArrows={true} pauseOnHover={true} loadFirstEager />
             <div className="hero-right-overlay" />
             <div className="hero-tag">
               <p>New In</p>
@@ -104,7 +134,9 @@ function HomePage() {
                     className="cat-card"
                     style={{ display: "block" }}
                   >
-                    <img src={c.img} alt={c.name} loading="lazy" />
+                      <div style={{ width: "100%", height: "100%" }}>
+                        <Carousel images={(catImgsMap[c.slug] && catImgsMap[c.slug].length) ? catImgsMap[c.slug] : c.images} interval={3500} transitionMs={500} showDots={false} showArrows={false} pauseOnHover={true} loadFirstEager={false} />
+                      </div>
                     <div className="cat-overlay">
                       <div className="cat-pill">{c.desc}</div>
                       <h3 className="cat-name">{c.name}</h3>
@@ -125,14 +157,12 @@ function HomePage() {
           <div className="container">
             <div className="about-grid">
               <div className="about-visual">
-                <img
-                  className="about-img"
-                  src="https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?q=80&w=700&auto=format&fit=crop"
-                  alt="Tailored menswear"
-                />
-                <div className="about-badge">
-                  <strong>№1</strong>
-                  <small>Moi Ave</small>
+                <div style={{ position: "relative", width: "100%" }}>
+                  <Carousel images={aboutImgs.length ? aboutImgs : DEFAULT_ABOUT} interval={5000} transitionMs={700} showDots={true} showArrows={false} pauseOnHover={true} loadFirstEager />
+                  <div className="about-badge">
+                    <strong>№1</strong>
+                    <small>Moi Ave</small>
+                  </div>
                 </div>
               </div>
               <div>

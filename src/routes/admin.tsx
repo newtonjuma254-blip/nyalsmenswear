@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 import { SiteHeader, ThemeToggle } from "@/components/site-header";
 import { supabase } from "@/integrations/supabase/client";
-import { fetchProducts, formatKES, slugify, ALL_CATEGORIES, type Product, type ProductInsert } from "@/lib/products";
+import { fetchProducts, formatKES, slugify, ALL_CATEGORIES, CATEGORIES, type Product, type ProductInsert } from "@/lib/products";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -76,6 +76,106 @@ function AdminPage() {
     </>
   );
 }
+
+function SiteSettings() {
+  const { data: products = [] } = useQuery({ queryKey: ["products", "All"], queryFn: () => fetchProducts("All") });
+  const cats = CATEGORIES as any;
+  const [hero, setHero] = useState<string[]>(() => {
+    try { const raw = localStorage.getItem("nyals_site_data"); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p.heroImages)) return p.heroImages; } } catch {};
+    return [] as string[];
+  });
+  const [about, setAbout] = useState<string[]>(() => {
+    try { const raw = localStorage.getItem("nyals_site_data"); if (raw) { const p = JSON.parse(raw); if (Array.isArray(p.aboutImages)) return p.aboutImages; } } catch {};
+    return [] as string[];
+  });
+  const [catMap, setCatMap] = useState<Record<string, string[]>>(() => {
+    try { const raw = localStorage.getItem("nyals_site_data"); if (raw) { const p = JSON.parse(raw); if (p.categories) return p.categories; } } catch {};
+    return {};
+  });
+
+  const save = () => {
+    const payload = { heroImages: hero, aboutImages: about, categories: catMap };
+    localStorage.setItem("nyals_site_data", JSON.stringify(payload));
+    window.dispatchEvent(new Event("nyals:site:update"));
+    toast.success("Site images saved (local preview)");
+  };
+
+  return (
+    <div style={{ display: "grid", gap: 16 }}>
+      <h3>Site Images</h3>
+      <div style={{ background: "var(--bg2)", padding: 16, border: "1px solid var(--border2)" }}>
+        <div style={{ marginBottom: 8 }}><strong>Hero Images</strong></div>
+        <div style={{ display: "grid", gap: 8 }}>
+          {hero.map((h, i) => (
+            <div key={i} style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <input value={h} onChange={(e) => setHero((p) => p.map((v, idx) => idx === i ? e.target.value : v))} />
+              <div style={{ display: "flex", gap: 6 }}>
+                <button className="btn-outline" type="button" onClick={() => setHero((p) => { const nxt = [...p]; if (i > 0) { [nxt[i-1], nxt[i]] = [nxt[i], nxt[i-1]]; } return nxt; })}>↑</button>
+                <button className="btn-outline" type="button" onClick={() => setHero((p) => { const nxt = [...p]; if (i < nxt.length - 1) { [nxt[i+1], nxt[i]] = [nxt[i], nxt[i+1]]; } return nxt; })}>↓</button>
+                <button className="btn-del" type="button" onClick={() => setHero((p) => p.filter((_, idx) => idx !== i))}>Remove</button>
+              </div>
+            </div>
+          ))}
+          <div>
+            <button className="btn-outline" type="button" onClick={() => setHero((p) => [...p, ""]) }>Add Image</button>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ background: "var(--bg2)", padding: 16, border: "1px solid var(--border2)" }}>
+        <div style={{ marginBottom: 8 }}><strong>About Images</strong></div>
+        <div style={{ display: "grid", gap: 8 }}>
+          {about.map((h, i) => (
+            <div key={i} style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <input value={h} onChange={(e) => setAbout((p) => p.map((v, idx) => idx === i ? e.target.value : v))} />
+              <div style={{ display: "flex", gap: 6 }}>
+                <button className="btn-outline" type="button" onClick={() => setAbout((p) => { const nxt = [...p]; if (i > 0) { [nxt[i-1], nxt[i]] = [nxt[i], nxt[i-1]]; } return nxt; })}>↑</button>
+                <button className="btn-outline" type="button" onClick={() => setAbout((p) => { const nxt = [...p]; if (i < nxt.length - 1) { [nxt[i+1], nxt[i]] = [nxt[i], nxt[i+1]]; } return nxt; })}>↓</button>
+                <button className="btn-del" type="button" onClick={() => setAbout((p) => p.filter((_, idx) => idx !== i))}>Remove</button>
+              </div>
+            </div>
+          ))}
+          <div>
+            <button className="btn-outline" type="button" onClick={() => setAbout((p) => [...p, ""]) }>Add Image</button>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ background: "var(--bg2)", padding: 16, border: "1px solid var(--border2)" }}>
+        <div style={{ marginBottom: 8 }}><strong>Category Images</strong></div>
+        <div style={{ display: "grid", gap: 10 }}>
+          {cats.map((c: any) => {
+            const list = catMap[c.slug] ?? c.images ?? [];
+            return (
+              <div key={c.slug} style={{ borderTop: "1px dashed var(--border2)", paddingTop: 10 }}>
+                <div style={{ fontWeight: 700, marginBottom: 6 }}>{c.name}</div>
+                {(list || []).map((u: string, i: number) => (
+                  <div key={i} style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    <input value={u} onChange={(e) => setCatMap((p) => ({ ...p, [c.slug]: (p[c.slug] ?? c.images ?? []).map((v: string, idx: number) => idx === i ? e.target.value : v) }))} />
+                    <div style={{ display: "flex", gap: 6 }}>
+                      <button className="btn-outline" type="button" onClick={() => setCatMap((p) => { const cur = p[c.slug] ?? c.images ?? []; const nxt = [...cur]; const idx = i; if (idx > 0) { [nxt[idx-1], nxt[idx]] = [nxt[idx], nxt[idx-1]]; } return { ...p, [c.slug]: nxt }; })}>↑</button>
+                      <button className="btn-outline" type="button" onClick={() => setCatMap((p) => { const cur = p[c.slug] ?? c.images ?? []; const nxt = [...cur]; const idx = i; if (idx < nxt.length - 1) { [nxt[idx+1], nxt[idx]] = [nxt[idx], nxt[idx+1]]; } return { ...p, [c.slug]: nxt }; })}>↓</button>
+                      <button className="btn-del" type="button" onClick={() => setCatMap((p) => { const cur = p[c.slug] ?? c.images ?? []; return { ...p, [c.slug]: cur.filter((_: any, idx: number) => idx !== i) }; })}>Remove</button>
+                    </div>
+                  </div>
+                ))}
+                <div style={{ marginTop: 6 }}>
+                  <button className="btn-outline" type="button" onClick={() => setCatMap((p) => ({ ...p, [c.slug]: [...(p[c.slug] ?? c.images ?? []), ""] }))}>Add Image</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div style={{ display: "flex", gap: 8 }}>
+        <button className="btn-gold" type="button" onClick={save}>Save Site Images</button>
+        <button className="btn-outline" type="button" onClick={() => { localStorage.removeItem("nyals_site_data"); window.dispatchEvent(new Event("nyals:site:update")); toast.success("Reset site images to defaults"); }}>Reset</button>
+      </div>
+    </div>
+  );
+}
+
 
 function LoginCard() {
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -161,6 +261,7 @@ function NotAdminCard() {
 function Dashboard({ email }: { email: string }) {
   const qc = useQueryClient();
   const [tab, setTab] = useState<"overview" | "add" | "manage">("overview");
+    const [tab, setTab] = useState<"overview" | "add" | "manage" | "site">("overview");
   const [manageFilter, setManageFilter] = useState("All");
   const [editing, setEditing] = useState<Product | null>(null);
 
@@ -190,9 +291,10 @@ function Dashboard({ email }: { email: string }) {
         <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
           <a href="/" className="btn-exit-admin">← Exit to Store</a>
           <div className="admin-tabs">
-            <button className={`admin-tab ${tab === "overview" ? "active" : ""}`} onClick={() => setTab("overview")}>Overview</button>
-            <button className={`admin-tab ${tab === "add" ? "active" : ""}`} onClick={() => { setTab("add"); setEditing(null); }}>Add Product</button>
-            <button className={`admin-tab ${tab === "manage" ? "active" : ""}`} onClick={() => setTab("manage")}>Manage</button>
+              <button className={`admin-tab ${tab === "overview" ? "active" : ""}`} onClick={() => setTab("overview")}>Overview</button>
+              <button className={`admin-tab ${tab === "add" ? "active" : ""}`} onClick={() => { setTab("add"); setEditing(null); }}>Add Product</button>
+              <button className={`admin-tab ${tab === "manage" ? "active" : ""}`} onClick={() => setTab("manage")}>Manage</button>
+              <button className={`admin-tab ${tab === "site" ? "active" : ""}`} onClick={() => setTab("site")}>Site</button>
           </div>
           <button className="btn-admin" onClick={() => supabase.auth.signOut()}>Sign Out</button>
         </div>
@@ -315,12 +417,12 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
   const [description, setDescription] = useState(initial?.description ?? "");
   const [material, setMaterial] = useState(initial?.material ?? "");
   const [sizesStr, setSizesStr] = useState((initial?.sizes ?? []).join(", "));
-  const [imagesStr, setImagesStr] = useState((initial?.images ?? []).join("\n"));
+  const [images, setImages] = useState<string[]>(initial?.images ?? []);
   const [inStock, setInStock] = useState(initial?.in_stock ?? true);
   const [badge, setBadge] = useState<string>(initial?.badge ?? "");
   const [busy, setBusy] = useState(false);
 
-  const previewImg = imagesStr.split("\n").map((s) => s.trim()).find((s) => s.startsWith("http"));
+  const previewImg = images.map((s) => s?.trim()).find((s) => s && s.startsWith("http"));
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -329,7 +431,7 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
       return;
     }
     setBusy(true);
-    const payload: ProductInsert = {
+      const payload: ProductInsert = {
       name,
       category,
       price: Number(price),
@@ -339,7 +441,7 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
       description: description || null,
       material: material || null,
       sizes: sizesStr.split(",").map((s) => s.trim()).filter(Boolean),
-      images: imagesStr.split("\n").map((s) => s.trim()).filter(Boolean),
+        images: images.map((s) => s.trim()).filter(Boolean),
       in_stock: inStock,
       badge: badge || null,
     };
@@ -409,16 +511,26 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
       <div className="form-group"><label>Description</label>
         <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Short product description" />
       </div>
-      <div className="form-group"><label>Image URLs (one per line) *</label>
-        <textarea value={imagesStr} onChange={(e) => setImagesStr(e.target.value)}
-          placeholder="https://images.unsplash.com/..." style={{ minHeight: 120 }} required />
-      </div>
-      {previewImg && (
-        <div style={{ marginTop: "0.5rem", marginBottom: "1rem" }}>
-          <p style={{ fontSize: "0.68rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--text3)", marginBottom: "0.5rem" }}>Preview</p>
-          <img src={previewImg} alt="preview" style={{ width: 180, aspectRatio: "3/4", objectFit: "cover", borderRadius: 3, border: "1px solid var(--border2)" }} />
+      <div className="form-group"><label>Images *</label>
+        <div style={{ display: "grid", gap: 8 }}>
+          {images.map((img, i) => (
+            <div key={i} style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <input value={img} onChange={(e) => setImages((prev) => prev.map((v, idx) => idx === i ? e.target.value : v))} placeholder="https://images.unsplash.com/..." />
+              <div style={{ display: "flex", gap: 6 }}>
+                <button type="button" className="btn-outline" onClick={() => setImages((p) => { const nxt = [...p]; if (i > 0) { [nxt[i-1], nxt[i]] = [nxt[i], nxt[i-1]]; } return nxt; })}>↑</button>
+                <button type="button" className="btn-outline" onClick={() => setImages((p) => { const nxt = [...p]; if (i < nxt.length - 1) { [nxt[i+1], nxt[i]] = [nxt[i], nxt[i+1]]; } return nxt; })}>↓</button>
+                <button type="button" className="btn-del" onClick={() => setImages((p) => p.filter((_, idx) => idx !== i))}>Remove</button>
+              </div>
+            </div>
+          ))}
+          <div style={{ display: "flex", gap: 8 }}>
+            <button type="button" className="btn-outline" onClick={() => setImages((p) => [...p, ""]) }>Add Image</button>
+            {previewImg && <div style={{ marginLeft: 12 }}>
+              <img src={previewImg} alt="preview" style={{ width: 120, aspectRatio: "3/4", objectFit: "cover", borderRadius: 3, border: "1px solid var(--border2)" }} />
+            </div>}
+          </div>
         </div>
-      )}
+      </div>
       <div className="form-group" style={{ marginTop: "0.5rem" }}>
         <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
           <input type="checkbox" checked={inStock} onChange={(e) => setInStock(e.target.checked)}

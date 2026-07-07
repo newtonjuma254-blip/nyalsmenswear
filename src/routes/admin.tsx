@@ -407,8 +407,18 @@ function ManageProducts({
   );
 }
 
+const BRAND_OPTIONS = [
+  "Gauche","Sergio Vitti","Beymearn","Carlo Palazzi","Mavilex","Bellus","Daniel Richards","Manio",
+  "Alessio Marchetti","Vittorio Conte","Renard & Cole","Marchetti Bianchi","Corsini Roma",
+  "Leon Falchetti","Bastiani","Étienne Roux","Corvatti",
+  "Domenico Ferra","Lucca & Sons","Palmiro Reggio","Estevan Cruz",
+  "Rinaldi Milano","Ferro & Vane","Castellano","Argento",
+  "Ambrosio & Co","Silvano Reyes","Corsetti","Vellano",
+];
+
 function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () => void }) {
   const [name, setName] = useState(initial?.name ?? "");
+  const [brand, setBrand] = useState<string>((initial as any)?.brand ?? "");
   const [category, setCategory] = useState(initial?.category ?? "");
   const [price, setPrice] = useState<string>(initial?.price ? String(initial.price) : "");
   const [priceWas, setPriceWas] = useState<string>(initial?.price_was ? String(initial.price_was) : "");
@@ -417,8 +427,10 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
   const [description, setDescription] = useState(initial?.description ?? "");
   const [material, setMaterial] = useState(initial?.material ?? "");
   const [sizesStr, setSizesStr] = useState((initial?.sizes ?? []).join(", "));
+  const [tagsStr, setTagsStr] = useState(((initial as any)?.tags ?? []).join(", "));
   const [images, setImages] = useState<string[]>(initial?.images ?? []);
   const [inStock, setInStock] = useState(initial?.in_stock ?? true);
+  const [featured, setFeatured] = useState<boolean>((initial as any)?.featured ?? false);
   const [badge, setBadge] = useState<string>(initial?.badge ?? "");
   const [busy, setBusy] = useState(false);
 
@@ -427,12 +439,13 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!name || !category || !price) {
-      toast.error("Please fill all required fields.");
+      toast.error("Name, Category and Price are required.");
       return;
     }
     setBusy(true);
-      const payload: ProductInsert = {
+    const payload: ProductInsert = {
       name,
+      brand: brand || null,
       category,
       price: Number(price),
       price_was: priceWas ? Number(priceWas) : null,
@@ -441,8 +454,10 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
       description: description || null,
       material: material || null,
       sizes: sizesStr.split(",").map((s) => s.trim()).filter(Boolean),
-        images: images.map((s) => s.trim()).filter(Boolean),
+      tags: tagsStr.split(",").map((s) => s.trim()).filter(Boolean),
+      images: images.map((s) => s.trim()).filter(Boolean),
       in_stock: inStock,
+      featured,
       badge: badge || null,
     };
     try {
@@ -470,11 +485,22 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
         <div className="form-group"><label>Product Name *</label>
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Navy Slim-Fit Suit" required />
         </div>
+        <div className="form-group"><label>Brand</label>
+          <input list="brand-options" value={brand} onChange={(e) => setBrand(e.target.value)} placeholder="e.g. Sergio Vitti" />
+          <datalist id="brand-options">
+            {BRAND_OPTIONS.map((b) => <option key={b} value={b} />)}
+          </datalist>
+        </div>
+      </div>
+      <div className="form-row">
         <div className="form-group"><label>Category *</label>
           <select value={category} onChange={(e) => setCategory(e.target.value)} required>
             <option value="">Select category</option>
             {ALL_CATEGORIES.map((c) => <option key={c}>{c}</option>)}
           </select>
+        </div>
+        <div className="form-group"><label>Material</label>
+          <input value={material} onChange={(e) => setMaterial(e.target.value)} placeholder="e.g. 100% Merino Wool" />
         </div>
       </div>
       <div className="form-row-3">
@@ -501,17 +527,17 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
         </div>
       </div>
       <div className="form-row">
-        <div className="form-group"><label>Material</label>
-          <input value={material} onChange={(e) => setMaterial(e.target.value)} placeholder="e.g. 100% Merino Wool" />
-        </div>
         <div className="form-group"><label>Sizes (comma-separated)</label>
           <input value={sizesStr} onChange={(e) => setSizesStr(e.target.value)} placeholder="e.g. S, M, L, XL" />
+        </div>
+        <div className="form-group"><label>Tags (comma-separated)</label>
+          <input value={tagsStr} onChange={(e) => setTagsStr(e.target.value)} placeholder="e.g. wedding, new-arrival" />
         </div>
       </div>
       <div className="form-group"><label>Description</label>
         <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Short product description" />
       </div>
-      <div className="form-group"><label>Images *</label>
+      <div className="form-group"><label>Images</label>
         <div style={{ display: "grid", gap: 8 }}>
           {images.map((img, i) => (
             <div key={i} style={{ display: "flex", gap: 8, alignItems: "center" }}>
@@ -523,7 +549,7 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
               </div>
             </div>
           ))}
-          <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <button type="button" className="btn-outline" onClick={() => setImages((p) => [...p, ""]) }>Add Image</button>
             {previewImg && <div style={{ marginLeft: 12 }}>
               <img src={previewImg} alt="preview" style={{ width: 120, aspectRatio: "3/4", objectFit: "cover", borderRadius: 3, border: "1px solid var(--border2)" }} />
@@ -531,12 +557,21 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
           </div>
         </div>
       </div>
-      <div className="form-group" style={{ marginTop: "0.5rem" }}>
-        <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
-          <input type="checkbox" checked={inStock} onChange={(e) => setInStock(e.target.checked)}
-            style={{ width: "auto", accentColor: "var(--gold)" }} />
-          <span>In stock</span>
-        </label>
+      <div className="form-row" style={{ marginTop: "0.5rem" }}>
+        <div className="form-group">
+          <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
+            <input type="checkbox" checked={inStock} onChange={(e) => setInStock(e.target.checked)}
+              style={{ width: "auto", accentColor: "var(--gold)" }} />
+            <span>In stock</span>
+          </label>
+        </div>
+        <div className="form-group">
+          <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
+            <input type="checkbox" checked={featured} onChange={(e) => setFeatured(e.target.checked)}
+              style={{ width: "auto", accentColor: "var(--gold)" }} />
+            <span>Featured on homepage</span>
+          </label>
+        </div>
       </div>
       <div style={{ display: "flex", gap: "0.7rem", marginTop: "1rem" }}>
         <button className="btn-gold" type="submit" disabled={busy}>
@@ -547,3 +582,4 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
     </form>
   );
 }
+

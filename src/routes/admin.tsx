@@ -427,7 +427,7 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
   const [description, setDescription] = useState(initial?.description ?? "");
   const [material, setMaterial] = useState(initial?.material ?? "");
   const [sizesStr, setSizesStr] = useState((initial?.sizes ?? []).join(", "));
-  const [tagsStr, setTagsStr] = useState(((initial as any)?.tags ?? []).join(", "));
+  const [tagsStr, setTagsStr] = useState<string>((((initial as any)?.tags ?? []) as string[]).join(", "));
   const [images, setImages] = useState<string[]>(initial?.images ?? []);
   const [inStock, setInStock] = useState(initial?.in_stock ?? true);
   const [featured, setFeatured] = useState<boolean>((initial as any)?.featured ?? false);

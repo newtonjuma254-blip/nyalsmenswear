@@ -17,9 +17,11 @@ export type Database = {
       products: {
         Row: {
           badge: string | null
+          brand: string | null
           category: string
           created_at: string
           description: string | null
+          featured: boolean
           id: string
           images: string[]
           in_stock: boolean
@@ -30,13 +32,16 @@ export type Database = {
           sizes: string[]
           sku: string
           slug: string
+          tags: string[]
           updated_at: string
         }
         Insert: {
           badge?: string | null
+          brand?: string | null
           category: string
           created_at?: string
           description?: string | null
+          featured?: boolean
           id?: string
           images?: string[]
           in_stock?: boolean
@@ -47,13 +52,16 @@ export type Database = {
           sizes?: string[]
           sku: string
           slug: string
+          tags?: string[]
           updated_at?: string
         }
         Update: {
           badge?: string | null
+          brand?: string | null
           category?: string
           created_at?: string
           description?: string | null
+          featured?: boolean
           id?: string
           images?: string[]
           in_stock?: boolean
@@ -64,6 +72,7 @@ export type Database = {
           sizes?: string[]
           sku?: string
           slug?: string
+          tags?: string[]
           updated_at?: string
         }
         Relationships: []

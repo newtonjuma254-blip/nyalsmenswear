@@ -434,7 +434,7 @@ function ProductForm({ initial, onDone }: { initial: Product | null; onDone: () 
   const [badge, setBadge] = useState<string>(initial?.badge ?? "");
   const [busy, setBusy] = useState(false);
 
-  const previewImg = images.map((s) => s?.trim()).find((s) => s && s.startsWith("http"));
+  const previewImg = images.map((s: string) => s?.trim()).find((s: string) => s && s.startsWith("http"));
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();

@@ -260,8 +260,7 @@ function NotAdminCard() {
 
 function Dashboard({ email }: { email: string }) {
   const qc = useQueryClient();
-  const [tab, setTab] = useState<"overview" | "add" | "manage">("overview");
-    const [tab, setTab] = useState<"overview" | "add" | "manage" | "site">("overview");
+  const [tab, setTab] = useState<"overview" | "add" | "manage" | "site">("overview");
   const [manageFilter, setManageFilter] = useState("All");
   const [editing, setEditing] = useState<Product | null>(null);
 

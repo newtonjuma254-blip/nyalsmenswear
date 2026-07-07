@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { queryOptions } from "@tanstack/react-query";
 
 import { SiteHeader, ThemeToggle } from "@/components/site-header";
-import Carousel from "@/components/ui/carousel";
+import Carousel from "@/components/carousel";
 import { HERO_IMAGES as DEFAULT_HERO, ABOUT_IMAGES as DEFAULT_ABOUT } from "@/lib/site";
 import { useEffect, useState } from "react";
 import { SiteFooter } from "@/components/site-footer";

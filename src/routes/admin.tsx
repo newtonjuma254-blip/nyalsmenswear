@@ -316,6 +316,7 @@ function Dashboard({ email }: { email: string }) {
           onDelete={(id) => { if (confirm("Delete this product?")) del.mutate(id); }}
         />
       )}
+      {tab === "site" && <SiteSettings />}
     </div>
   );
 }

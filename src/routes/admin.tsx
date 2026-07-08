@@ -3,7 +3,8 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import { SiteHeader, ThemeToggle } from "@/components/site-header";
+import { SiteHeader } from "@/components/site-header";
+import { FloatingActions } from "@/components/floating-actions";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProducts, formatKES, slugify, ALL_CATEGORIES, CATEGORIES, type Product, type ProductInsert } from "@/lib/products";
 
@@ -60,8 +61,8 @@ function AdminPage() {
     );
   }
 
-  if (!session) return <><SiteHeader /><main className="page-shell"><LoginCard /></main><ThemeToggle /></>;
-  if (isAdmin === false) return <><SiteHeader /><main className="page-shell"><NotAdminCard /></main><ThemeToggle /></>;
+  if (!session) return <><SiteHeader /><main className="page-shell"><LoginCard /></main><FloatingActions /></>;
+  if (isAdmin === false) return <><SiteHeader /><main className="page-shell"><NotAdminCard /></main><FloatingActions /></>;
   if (isAdmin === null) {
     return <><SiteHeader /><main className="page-shell"><div className="admin-login"><div className="login-card"><p>Checking access…</p></div></div></main></>;
   }
@@ -72,7 +73,7 @@ function AdminPage() {
       <main className="page-shell">
         <Dashboard email={session.user.email ?? ""} />
       </main>
-      <ThemeToggle />
+      <FloatingActions />
     </>
   );
 }

@@ -3,7 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { queryOptions } from "@tanstack/react-query";
 
-import { SiteHeader, ThemeToggle } from "@/components/site-header";
+import { SiteHeader } from "@/components/site-header";
+import { FloatingActions } from "@/components/floating-actions";
 import Carousel from "@/components/carousel";
 import { HERO_IMAGES as DEFAULT_HERO, ABOUT_IMAGES as DEFAULT_ABOUT } from "@/lib/site";
 import { useEffect, useState } from "react";
@@ -312,7 +313,7 @@ function HomePage() {
 
         <SiteFooter />
       </main>
-      <ThemeToggle />
+      <FloatingActions />
     </>
   );
 }

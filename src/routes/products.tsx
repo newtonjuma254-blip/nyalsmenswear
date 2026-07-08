@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { z } from "zod";
 
-import { SiteHeader, ThemeToggle } from "@/components/site-header";
+import { SiteHeader } from "@/components/site-header";
+import { FloatingActions } from "@/components/floating-actions";
 import { SiteFooter } from "@/components/site-footer";
 import { fetchProducts, formatKES, type Product } from "@/lib/products";
 
@@ -86,7 +87,7 @@ function ProductsPage() {
         </div>
         <SiteFooter />
       </main>
-      <ThemeToggle />
+      <FloatingActions />
     </>
   );
 }

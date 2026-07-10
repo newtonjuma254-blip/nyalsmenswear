@@ -14,6 +14,41 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          page_path: string | null
+          product_id: string | null
+          session_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          page_path?: string | null
+          product_id?: string | null
+          session_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          page_path?: string | null
+          product_id?: string | null
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_events_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           badge: string | null

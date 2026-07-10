@@ -294,9 +294,11 @@ function Dashboard({ email }: { email: string }) {
           <a href="/" className="btn-exit-admin">← Exit to Store</a>
           <div className="admin-tabs">
               <button className={`admin-tab ${tab === "overview" ? "active" : ""}`} onClick={() => setTab("overview")}>Overview</button>
+              <button className={`admin-tab ${tab === "analytics" ? "active" : ""}`} onClick={() => setTab("analytics")}>Analytics</button>
               <button className={`admin-tab ${tab === "add" ? "active" : ""}`} onClick={() => { setTab("add"); setEditing(null); }}>Add Product</button>
               <button className={`admin-tab ${tab === "manage" ? "active" : ""}`} onClick={() => setTab("manage")}>Manage</button>
               <button className={`admin-tab ${tab === "site" ? "active" : ""}`} onClick={() => setTab("site")}>Site</button>
+
           </div>
           <button className="btn-admin" onClick={() => supabase.auth.signOut()}>Sign Out</button>
         </div>

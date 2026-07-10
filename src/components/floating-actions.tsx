@@ -191,8 +191,10 @@ export function FloatingActions() {
 
   const openWhatsApp = () => {
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_DEFAULT_MESSAGE)}`;
+    import("@/lib/analytics").then(({ trackEvent }) => trackEvent("order_click"));
     window.open(url, "_blank", "noopener,noreferrer");
   };
+
 
   return (
     <>

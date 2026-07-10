@@ -5,8 +5,10 @@ import { toast } from "sonner";
 
 import { SiteHeader } from "@/components/site-header";
 import { FloatingActions } from "@/components/floating-actions";
+import { AnalyticsPanel } from "@/components/admin-analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProducts, formatKES, slugify, ALL_CATEGORIES, CATEGORIES, type Product, type ProductInsert } from "@/lib/products";
+
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -261,7 +263,7 @@ function NotAdminCard() {
 
 function Dashboard({ email }: { email: string }) {
   const qc = useQueryClient();
-  const [tab, setTab] = useState<"overview" | "add" | "manage" | "site">("overview");
+  const [tab, setTab] = useState<"overview" | "add" | "manage" | "site" | "analytics">("overview");
   const [manageFilter, setManageFilter] = useState("All");
   const [editing, setEditing] = useState<Product | null>(null);
 
@@ -292,9 +294,11 @@ function Dashboard({ email }: { email: string }) {
           <a href="/" className="btn-exit-admin">← Exit to Store</a>
           <div className="admin-tabs">
               <button className={`admin-tab ${tab === "overview" ? "active" : ""}`} onClick={() => setTab("overview")}>Overview</button>
+              <button className={`admin-tab ${tab === "analytics" ? "active" : ""}`} onClick={() => setTab("analytics")}>Analytics</button>
               <button className={`admin-tab ${tab === "add" ? "active" : ""}`} onClick={() => { setTab("add"); setEditing(null); }}>Add Product</button>
               <button className={`admin-tab ${tab === "manage" ? "active" : ""}`} onClick={() => setTab("manage")}>Manage</button>
               <button className={`admin-tab ${tab === "site" ? "active" : ""}`} onClick={() => setTab("site")}>Site</button>
+
           </div>
           <button className="btn-admin" onClick={() => supabase.auth.signOut()}>Sign Out</button>
         </div>
@@ -318,6 +322,8 @@ function Dashboard({ email }: { email: string }) {
         />
       )}
       {tab === "site" && <SiteSettings />}
+      {tab === "analytics" && <AnalyticsPanel />}
+
     </div>
   );
 }

@@ -129,6 +129,25 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    let lastPath = "";
+    const fire = (path: string) => {
+      if (path === lastPath) return;
+      lastPath = path;
+      // Skip admin routes from visitor analytics.
+      if (path.startsWith("/admin")) return;
+      import("@/lib/analytics").then(({ trackEvent }) => {
+        trackEvent("page_view", { page_path: path });
+      });
+    };
+    fire(window.location.pathname);
+    const unsub = router.subscribe("onResolved", () => {
+      fire(window.location.pathname);
+    });
+    return () => unsub();
+  }, [router]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -137,3 +156,4 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+

@@ -102,8 +102,14 @@ function ProductCard({ p }: { p: Product }) {
     ? <div className="prod-badge badge-sale">Sale</div>
     : null;
 
+  const handleView = () => {
+    import("@/lib/analytics").then(({ trackEvent }) =>
+      trackEvent("product_view", { product_id: p.id }),
+    );
+  };
+
   return (
-    <div className="prod-card">
+    <div className="prod-card" onClick={handleView} style={{ cursor: "pointer" }}>
       <div className="prod-img">
         <img src={img} alt={p.name} loading="lazy" />
         {badge}
@@ -129,3 +135,4 @@ function ProductCard({ p }: { p: Product }) {
     </div>
   );
 }
+

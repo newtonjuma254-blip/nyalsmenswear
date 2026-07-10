@@ -5,8 +5,10 @@ import { toast } from "sonner";
 
 import { SiteHeader } from "@/components/site-header";
 import { FloatingActions } from "@/components/floating-actions";
+import { AnalyticsPanel } from "@/components/admin-analytics";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchProducts, formatKES, slugify, ALL_CATEGORIES, CATEGORIES, type Product, type ProductInsert } from "@/lib/products";
+
 
 export const Route = createFileRoute("/admin")({
   head: () => ({

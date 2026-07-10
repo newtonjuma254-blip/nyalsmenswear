@@ -322,6 +322,8 @@ function Dashboard({ email }: { email: string }) {
         />
       )}
       {tab === "site" && <SiteSettings />}
+      {tab === "analytics" && <AnalyticsPanel />}
+
     </div>
   );
 }

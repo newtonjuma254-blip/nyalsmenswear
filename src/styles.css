@@ -333,9 +333,11 @@ body::after {
   .site-header { padding: 1.1rem 1.5rem; }
   .site-nav, .header-right .btn-visit, .header-right .btn-admin { display: none; }
   .hamburger { display: inline-flex; }
-  .hero { grid-template-columns: 1fr; }
-  .hero-right { display: none; }
-  .hero-left { padding: 4rem 1.5rem 3rem; }
+  .hero { grid-template-columns: 1fr; position: relative; min-height: calc(100vh - 72px); }
+  .hero-right { display: block; position: absolute; inset: 0; z-index: 0; }
+  .hero-right .carousel-arrow, .hero-right .carousel-dots, .hero-tag { display: none; }
+  .hero-right-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 60%, var(--bg) 100%); }
+  .hero-left { position: relative; z-index: 1; padding: 5rem 1.5rem 4rem; }
   .container { padding: 0 1.5rem; }
   .cats-grid { grid-template-columns: 1fr 1fr; }
   .product-grid { grid-template-columns: repeat(2, 1fr); }

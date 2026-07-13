@@ -149,6 +149,34 @@ function RootComponent() {
     return () => unsub();
   }, [router]);
 
+  // Live sync: when the admin edits products, invalidate the client cache
+  // so every open tab refreshes as soon as changes land in the database.
+  useEffect(() => {
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+    import("@/integrations/supabase/client").then(({ supabase }) => {
+      if (cancelled) return;
+      const channel = supabase
+        .channel("products-sync")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "products" },
+          () => {
+            queryClient.invalidateQueries({ queryKey: ["products"] });
+          },
+        )
+        .subscribe();
+      cleanup = () => { supabase.removeChannel(channel); };
+    });
+    const onFocus = () => queryClient.invalidateQueries({ queryKey: ["products"] });
+    window.addEventListener("focus", onFocus);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("focus", onFocus);
+      cleanup?.();
+    };
+  }, [queryClient]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />

@@ -5,6 +5,7 @@ import { z } from "zod";
 import { SiteHeader } from "@/components/site-header";
 import { FloatingActions } from "@/components/floating-actions";
 import { SiteFooter } from "@/components/site-footer";
+import Carousel from "@/components/carousel";
 import { fetchProducts, formatKES, type Product } from "@/lib/products";
 
 const PILLS = ["All", "Suits", "Shirts", "Trousers", "Footwear", "Accessories", "Casual", "Blazers"];
@@ -93,7 +94,8 @@ function ProductsPage() {
 }
 
 function ProductCard({ p }: { p: Product }) {
-  const img = p.images?.[0] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop";
+  const fallback = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop";
+  const imgs = (p.images && p.images.length > 0) ? p.images : [fallback];
   const badge = !p.in_stock
     ? <div className="prod-badge badge-out">Out</div>
     : p.badge === "new"
@@ -111,7 +113,11 @@ function ProductCard({ p }: { p: Product }) {
   return (
     <div className="prod-card" onClick={handleView} style={{ cursor: "pointer" }}>
       <div className="prod-img">
-        <img src={img} alt={p.name} loading="lazy" />
+        {imgs.length > 1 ? (
+          <Carousel images={imgs} interval={3500} transitionMs={500} showDots={false} showArrows={false} pauseOnHover loadFirstEager={false} />
+        ) : (
+          <img src={imgs[0]} alt={p.name} loading="lazy" />
+        )}
         {badge}
       </div>
       <div className="prod-info">

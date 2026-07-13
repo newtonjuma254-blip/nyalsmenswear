@@ -153,6 +153,22 @@ function HomePage() {
           </div>
         </section>
 
+        {/* PRODUCTS MARQUEE */}
+        <div className="marquee-strip" aria-hidden="true">
+          <div className="marquee-track">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <span key={i}>
+                Tailored Suits <span className="mdot">◆</span> Blazers <span className="mdot">◆</span>{" "}
+                Dress Shirts <span className="mdot">◆</span> T-Shirts <span className="mdot">◆</span>{" "}
+                Trousers <span className="mdot">◆</span> Chinos <span className="mdot">◆</span>{" "}
+                Formal Shoes <span className="mdot">◆</span> Loafers <span className="mdot">◆</span>{" "}
+                Leather Belts <span className="mdot">◆</span> Ties &amp; Bow Ties <span className="mdot">◆</span>{" "}
+                Messenger Bags <span className="mdot">◆</span> Casual Wear <span className="mdot">◆</span>{" "}
+              </span>
+            ))}
+          </div>
+        </div>
+
         {/* ABOUT */}
         <section className="about-section" id="about">
           <div className="container">

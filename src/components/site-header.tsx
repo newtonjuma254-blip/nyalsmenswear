@@ -49,7 +49,8 @@ export function SiteHeader() {
             style={{ background: "var(--bg)", borderColor: "var(--border)", color: "var(--text)" }}
           >
             <SheetHeader>
-              <SheetTitle style={{ fontFamily: "'Cormorant Garamond', serif", color: "var(--gold2)" }}>
+              <SheetTitle style={{ fontFamily: "'Cormorant Garamond', serif", color: "var(--gold2)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <img src={NYALS_LOGO_URL} alt="Nyals logo" style={{ height: 32, width: "auto" }} />
                 <em>Nyals</em> (K) Ltd
               </SheetTitle>
             </SheetHeader>

@@ -35,7 +35,8 @@ export const CATEGORIES = [
   ], desc: "Everyday refined" },
 ];
 
-export const NYALS_LOGO_URL = "https://i.postimg.cc/rwN7G8X3/IMG-20260712-WA0031.jpg";
+import nyalsLogoAsset from "@/assets/nyals-logo.png.asset.json";
+export const NYALS_LOGO_URL = nyalsLogoAsset.url;
 
 export const ALL_CATEGORIES = ["Suits", "Blazers", "Shirts", "Trousers", "Footwear", "Accessories", "Casual"];
 

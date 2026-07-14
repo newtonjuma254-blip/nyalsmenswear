@@ -110,9 +110,11 @@ body::after {
 
 /* HEADER */
 .site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 500; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 3rem; background: var(--overlay); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); transition: background 0.35s, border-color 0.35s; }
-.logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; }
+.logo { display: inline-flex; align-items: center; gap: 0.65rem; font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; text-decoration: none; }
+.logo-mark { height: 38px; width: auto; display: block; }
+.logo-text { display: flex; flex-direction: column; line-height: 1; }
 .logo em { font-style: italic; color: var(--gold2); }
-.logo span { display: block; font-family: 'Syne', sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text3); margin-top: 2px; }
+.logo span { display: block; font-family: 'Syne', sans-serif; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text3); margin-top: 4px; }
 .site-nav { display: flex; gap: 2rem; }
 .site-nav a { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text2); transition: color 0.2s; position: relative; }
 .site-nav a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }

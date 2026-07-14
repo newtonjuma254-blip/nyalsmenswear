@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader } from "@/components/ui/sheet";
+import { NYALS_LOGO_URL } from "@/lib/products";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -14,9 +15,11 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
-      <Link to="/" className="logo">
-        <em>Nyals</em> (K) Ltd
-        <span>Moi Avenue · Nairobi</span>
+      <Link to="/" className="logo" aria-label="Nyals (K) Ltd home">
+        <img className="logo-mark" src={NYALS_LOGO_URL} alt="Nyals logo" />
+        <div className="logo-text">
+          <em>Nyals</em> (K) Ltd
+        </div>
       </Link>
 
       <nav className="site-nav">
@@ -46,7 +49,8 @@ export function SiteHeader() {
             style={{ background: "var(--bg)", borderColor: "var(--border)", color: "var(--text)" }}
           >
             <SheetHeader>
-              <SheetTitle style={{ fontFamily: "'Cormorant Garamond', serif", color: "var(--gold2)" }}>
+              <SheetTitle style={{ fontFamily: "'Cormorant Garamond', serif", color: "var(--gold2)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <img src={NYALS_LOGO_URL} alt="Nyals logo" style={{ height: 32, width: "auto" }} />
                 <em>Nyals</em> (K) Ltd
               </SheetTitle>
             </SheetHeader>

@@ -7,9 +7,9 @@ export function SiteFooter() {
         <div className="footer-brand">
           <div className="logo">
             <em>Nyals</em> (K) Ltd
-            <span>Exclusive Menswear · Nairobi</span>
+            <span>Exclusive Menswear</span>
           </div>
-          <p>Nairobi's premier destination for exclusive menswear, located at the heart of Moi Avenue.</p>
+          <p>Nairobi's premier destination for exclusive menswear.</p>
         </div>
         <div className="footer-col">
           <h4>Collections</h4>
@@ -36,7 +36,6 @@ export function SiteFooter() {
           <h4>Contact</h4>
           <ul>
             <li>Visit In-Store</li>
-            <li>Moi Avenue, Nairobi</li>
             <li>P.O. Box 49742</li>
           </ul>
         </div>

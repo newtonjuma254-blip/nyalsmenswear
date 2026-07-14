@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { recordAnalyticsEvent } from "./analytics.functions";
 
 const SESSION_KEY = "nyals_session_id";
 
@@ -30,14 +30,15 @@ export function trackEvent(
   opts: { product_id?: string | null; page_path?: string | null } = {},
 ) {
   if (typeof window === "undefined") return;
-  // Fire-and-forget; never block the caller.
   Promise.resolve().then(async () => {
     try {
-      await supabase.from("analytics_events").insert({
-        event_type,
-        product_id: opts.product_id ?? null,
-        session_id: getSessionId(),
-        page_path: opts.page_path ?? window.location.pathname,
+      await recordAnalyticsEvent({
+        data: {
+          event_type,
+          product_id: opts.product_id ?? null,
+          session_id: getSessionId(),
+          page_path: opts.page_path ?? window.location.pathname,
+        },
       });
     } catch {
       /* swallow — analytics must never break the app */

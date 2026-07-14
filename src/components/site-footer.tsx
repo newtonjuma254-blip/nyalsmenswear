@@ -36,7 +36,6 @@ export function SiteFooter() {
           <h4>Contact</h4>
           <ul>
             <li>Visit In-Store</li>
-            <li>Moi Avenue, Nairobi</li>
             <li>P.O. Box 49742</li>
           </ul>
         </div>

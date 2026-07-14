@@ -18,7 +18,7 @@ export function SiteHeader() {
       <Link to="/" className="logo" aria-label="Nyals (K) Ltd home">
         <img className="logo-mark" src={NYALS_LOGO_URL} alt="Nyals logo" />
         <div className="logo-text">
-          <em>Nyals</em> (K) Ltd
+          <em>Nyals</em> <span className="logo-suffix">(K) Ltd</span>
         </div>
       </Link>
 
@@ -35,8 +35,8 @@ export function SiteHeader() {
       </nav>
 
       <div className="header-right">
-        <Link to="/admin" className="btn-admin">Admin ⚙</Link>
-        <a href="/#location" className="btn-visit">Visit Store</a>
+        <Link to="/admin" className="btn-admin-icon" aria-label="Admin panel" title="Admin">⚙</Link>
+        <a href="/#location" className="btn-visit-sm">Visit Store</a>
 
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>

@@ -15,9 +15,11 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
-      <Link to="/" className="logo">
-        <em>Nyals</em> (K) Ltd
-        <span>Moi Avenue · Nairobi</span>
+      <Link to="/" className="logo" aria-label="Nyals (K) Ltd home">
+        <img className="logo-mark" src={NYALS_LOGO_URL} alt="Nyals logo" />
+        <div className="logo-text">
+          <em>Nyals</em> (K) Ltd
+        </div>
       </Link>
 
       <nav className="site-nav">

@@ -35,8 +35,10 @@ export function SiteFooter() {
         <div className="footer-col">
           <h4>Contact</h4>
           <ul>
-            <li>Visit In-Store</li>
-            <li>P.O. Box 49742</li>
+            <li>Moi Avenue, opposite Galitos</li>
+            <li>Nairobi, Kenya</li>
+            <li><a href="tel:+254722356316" style={{ color: "inherit" }}>0722 356 316</a></li>
+            <li><a href="mailto:nyalskenya@yahoo.com" style={{ color: "inherit" }}>nyalskenya@yahoo.com</a></li>
           </ul>
         </div>
       </div>

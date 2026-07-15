@@ -23,7 +23,6 @@ export const CATEGORIES = [
   ], desc: "Step in style" },
   { name: "Accessories", slug: "Accessories", images: [
     "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=700&auto=format&fit=crop",
-    "https://i.postimg.cc/N0G73tyb/New-Fashion-Men-Messenger-Bags-Casual-Mens-Leather-Chest-Bags-Big-Chest-Back-Pack-Male-Shoulder.jpg",
     "https://i.postimg.cc/mrZNv4cj/OIP-(2).webp",
   ], desc: "The finishing touch" },
   { name: "Casual Wear", slug: "Casual", images: [

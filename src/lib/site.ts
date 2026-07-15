@@ -8,7 +8,7 @@ export const ABOUT_IMAGES = [
 ];
 
 // Store WhatsApp contact — international format, digits only
-export const WHATSAPP_NUMBER = "254720000000";
+export const WHATSAPP_NUMBER = "254722356316";
 export const WHATSAPP_DEFAULT_MESSAGE =
   "Hello Nyals (K) Ltd, I have an enquiry about your menswear collection.";
 

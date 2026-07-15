@@ -161,9 +161,9 @@ function HomePage() {
                 Tailored Suits <span className="mdot">◆</span> Blazers <span className="mdot">◆</span>{" "}
                 Dress Shirts <span className="mdot">◆</span> T-Shirts <span className="mdot">◆</span>{" "}
                 Trousers <span className="mdot">◆</span> Chinos <span className="mdot">◆</span>{" "}
-                Formal Shoes <span className="mdot">◆</span> Loafers <span className="mdot">◆</span>{" "}
+                Official Shoes <span className="mdot">◆</span> Loafers <span className="mdot">◆</span>{" "}
                 Leather Belts <span className="mdot">◆</span> Ties &amp; Bow Ties <span className="mdot">◆</span>{" "}
-                Messenger Bags <span className="mdot">◆</span> Casual Wear <span className="mdot">◆</span>{" "}
+                Pocket Squares <span className="mdot">◆</span> Casual Wear <span className="mdot">◆</span>{" "}
               </span>
             ))}
           </div>

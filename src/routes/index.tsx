@@ -260,38 +260,40 @@ function HomePage() {
                     <div>
                       <span className="loc-label">Address</span>
                       <div className="loc-val">
-                        Nyals K Building, Moi Avenue
+                        Nyals Kenya, Moi Avenue
                         <br />
-                        Nairobi Central, Kenya
+                        Opposite Galitos, Nairobi
                       </div>
                     </div>
                   </div>
                   <div className="loc-item">
-                    <div className="loc-icon">📮</div>
+                    <div className="loc-icon">📞</div>
                     <div>
-                      <span className="loc-label">Postal</span>
-                      <div className="loc-val">P.O. Box 49742, 00100 Nairobi GPO</div>
+                      <span className="loc-label">Phone</span>
+                      <div className="loc-val">
+                        <a href="tel:+254722356316" style={{ color: "inherit" }}>0722 356 316</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="loc-item">
+                    <div className="loc-icon">✉️</div>
+                    <div>
+                      <span className="loc-label">Email</span>
+                      <div className="loc-val">
+                        <a href="mailto:nyalskenya@yahoo.com" style={{ color: "inherit" }}>nyalskenya@yahoo.com</a>
+                      </div>
                     </div>
                   </div>
                   <div className="loc-item">
                     <div className="loc-icon">🕙</div>
                     <div>
-                      <span className="loc-label">Hours</span>
+                      <span className="loc-label">Opening Hours</span>
                       <div className="loc-val">
-                        Mon–Sat: 9:00 AM – 7:00 PM
+                        Mon–Fri: 9:45 AM – 5:30 PM
                         <br />
-                        Sun: 11:00 AM – 5:00 PM
-                      </div>
-                    </div>
-                  </div>
-                  <div className="loc-item">
-                    <div className="loc-icon">💬</div>
-                    <div>
-                      <span className="loc-label">Enquiries</span>
-                      <div className="loc-val">
-                        Visit in-store or find us
+                        Sat: 9:45 AM – 4:30 PM
                         <br />
-                        on Yellow Pages Kenya
+                        Sun: Closed
                       </div>
                     </div>
                   </div>
